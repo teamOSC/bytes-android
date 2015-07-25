@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class CartActivity extends AppCompatActivity {
 
@@ -68,8 +69,13 @@ public class CartActivity extends AppCompatActivity {
 
         public class ViewHolder extends RecyclerView.ViewHolder{
 
+            TextView item;
+            TextView rate;
+
             public ViewHolder(View itemView) {
                 super(itemView);
+                item = (TextView) itemView.findViewById(R.id.cart_item);
+                rate = (TextView) itemView.findViewById(R.id.cart_rate);
             }
         }
     }

@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class FoodCourtActivity extends AppCompatActivity {
 
@@ -69,8 +70,17 @@ public class FoodCourtActivity extends AppCompatActivity {
 
         public class ViewHolder extends RecyclerView.ViewHolder{
 
+            TextView name;
+            TextView costForTwo;
+            TextView serviceTime;
+            View v;
+
             public ViewHolder(View itemView) {
                 super(itemView);
+                v = itemView;
+                name = (TextView) itemView.findViewById(R.id.restaurant_name);
+                costForTwo = (TextView) itemView.findViewById(R.id.restaurant_cost);
+                serviceTime = (TextView) itemView.findViewById(R.id.restaurant_time);
             }
         }
     }

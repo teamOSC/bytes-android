@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class ResultActivity extends AppCompatActivity {
 
@@ -67,8 +68,15 @@ public class ResultActivity extends AppCompatActivity {
 
         public class ViewHolder extends RecyclerView.ViewHolder{
 
+            TextView restaurant;
+            TextView amount;
+            TextView time;
+
             public ViewHolder(View itemView) {
                 super(itemView);
+                restaurant = (TextView) itemView.findViewById(R.id.result_name);
+                amount = (TextView) itemView.findViewById(R.id.result_amount);
+                time = (TextView) itemView.findViewById(R.id.result_time);
             }
         }
     }

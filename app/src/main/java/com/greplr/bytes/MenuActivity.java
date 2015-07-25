@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -67,8 +69,17 @@ public class MenuActivity extends AppCompatActivity {
 
         public class ViewHolder extends RecyclerView.ViewHolder{
 
+            TextView item;
+            TextView price;
+            ImageButton add;
+            View v;
+
             public ViewHolder(View itemView) {
                 super(itemView);
+                v = itemView;
+                item = (TextView) itemView.findViewById(R.id.menu_item);
+                price = (TextView) itemView.findViewById(R.id.menu_price);
+                add = (ImageButton) itemView.findViewById(R.id.menu_add);
             }
         }
     }

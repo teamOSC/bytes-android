@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/Bytes.iml" filepath="$PROJECT_DIR$/Bytes.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/estimote-sdk/estimote-sdk.iml" filepath="$PROJECT_DIR$/estimote-sdk/estimote-sdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/estimote-sdk/estimote-sdk.iml" filepath="$PROJECT_DIR$/estimote-sdk/estimote-sdk.iml" />
     </modules>
   </component>
 </project>

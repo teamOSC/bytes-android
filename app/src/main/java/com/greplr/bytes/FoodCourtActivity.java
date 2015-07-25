@@ -41,7 +41,7 @@ public class FoodCourtActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        }.execute("http://192.168.4.8:8000/bytes/outlets/fetch/");
+        }.execute("http://tosc.in:8084/bytes/outlets/fetch/");
     }
 
     @Override
@@ -60,6 +60,10 @@ public class FoodCourtActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+        if (id == R.id.action_cart) {
+            startActivity(new Intent(this, CartActivity.class));
             return true;
         }
 
@@ -86,7 +90,7 @@ public class FoodCourtActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(ViewHolder holder, final int position) {
             try {
                 holder.name.setText(jsonArray.getJSONObject(position).getString("name"));
                 holder.serviceTime.setText(jsonArray.getJSONObject(position).getString("min_service_time"));
@@ -94,6 +98,20 @@ public class FoodCourtActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
+            holder.v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                        intent.putExtra("outlet_id", jsonArray.getJSONObject(position).getString("outlet_id"));
+                        startActivity(intent);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
         }
 
         @Override

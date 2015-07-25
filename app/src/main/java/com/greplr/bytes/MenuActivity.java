@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,18 +14,35 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MenuActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
+    private String outletId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        outletId = getIntent().getStringExtra("outlet_id");
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_menu);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(new MenuAdapter());
+        new GetTask() {
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                try {
+                    Log.d("Test", s);
+                    mRecyclerView.setAdapter(new MenuAdapter(new JSONObject(s)));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.execute("http://tosc.in:8084/bytes/outlets/info/?out_id=" + outletId);
     }
 
     @Override
@@ -49,22 +67,51 @@ public class MenuActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
+
+        private JSONArray jsonArray;
+
+        public MenuAdapter(JSONObject jsonObject) {
+            try {
+                jsonArray = jsonObject.getJSONArray("results");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public MenuAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             CardView v = (CardView) LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.cardview_menu, parent, false);
             return new ViewHolder(v);
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        public void onBindViewHolder(ViewHolder holder, final int position) {
+            try {
+                holder.item.setText(jsonArray.getJSONObject(position).getString("item_name"));
+                holder.price.setText(jsonArray.getJSONObject(position).getString("item_rate"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            holder.add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        Log.d("Apprest", outletId + "" + position);
+                        (App.rest[(Integer.parseInt(outletId)) - 1][position]).doTheThing(
+                                "" + jsonArray.getJSONObject(position).getString("item_name")
+                        );
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
 
         @Override
         public int getItemCount() {
-            return 0;
+            return jsonArray.length();
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {

@@ -12,9 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class CartActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
+    private ArrayList<Cart> cartList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +26,13 @@ public class CartActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_cart);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
+        cartList = new ArrayList<>();
+        for (int i = 0; i < 5; i++)
+            for (int j = 0; j<10; j++){
+                if (App.rest[i][j].getQuantity() > 0) {
+                    cartList.add(new Cart(App.rest[i][j].getFoodItem(), String.valueOf(App.rest[i][j].getQuantity())));
+                }
+            }
         mRecyclerView.setAdapter(new CartAdapter());
     }
 
@@ -48,23 +58,24 @@ public class CartActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public CartAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             CardView v = (CardView) LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.cardview_cart, parent, false);
             return new ViewHolder(v);
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        public void onBindViewHolder(CartAdapter.ViewHolder holder, int position) {
+            holder.item.setText(cartList.get(position).name);
+            holder.rate.setText(cartList.get(position).quantity);
         }
 
         @Override
         public int getItemCount() {
-            return 0;
+            return cartList.size();
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
@@ -77,6 +88,16 @@ public class CartActivity extends AppCompatActivity {
                 item = (TextView) itemView.findViewById(R.id.cart_item);
                 rate = (TextView) itemView.findViewById(R.id.cart_rate);
             }
+        }
+    }
+
+    private class Cart {
+        String name;
+        String quantity;
+
+        public Cart(String name, String quantity) {
+            this.name = name;
+            this.quantity = quantity;
         }
     }
 }

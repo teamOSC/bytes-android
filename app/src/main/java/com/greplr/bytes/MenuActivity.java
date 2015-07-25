@@ -67,7 +67,7 @@ public class MenuActivity extends AppCompatActivity {
             return 0;
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder{
+        public class ViewHolder extends RecyclerView.ViewHolder {
 
             TextView item;
             TextView price;

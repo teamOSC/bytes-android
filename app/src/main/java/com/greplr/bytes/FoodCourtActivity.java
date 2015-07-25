@@ -6,12 +6,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class FoodCourtActivity extends AppCompatActivity {
 
@@ -25,7 +30,18 @@ public class FoodCourtActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_foodcourt);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(new FoodCourtAdapter());
+        new GetTask() {
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                try {
+                    Log.d("Test", s);
+                    mRecyclerView.setAdapter(new FoodCourtAdapter(new JSONObject(s)));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.execute("http://192.168.4.8:8000/bytes/outlets/fetch/");
     }
 
     @Override
@@ -50,25 +66,42 @@ public class FoodCourtActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class FoodCourtAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private class FoodCourtAdapter extends RecyclerView.Adapter<FoodCourtAdapter.ViewHolder> {
+
+        private JSONArray jsonArray;
+
+        public FoodCourtAdapter(JSONObject jsonObject) {
+            try {
+                jsonArray = jsonObject.getJSONArray("results");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public FoodCourtAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             CardView v = (CardView) LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.cardview_foodcourt, parent, false);
             return new ViewHolder(v);
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            try {
+                holder.name.setText(jsonArray.getJSONObject(position).getString("name"));
+                holder.serviceTime.setText(jsonArray.getJSONObject(position).getString("min_service_time"));
+                holder.costForTwo.setText(jsonArray.getJSONObject(position).getString("cost_for_two"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
         public int getItemCount() {
-            return 0;
+            return jsonArray.length();
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder{
+        public class ViewHolder extends RecyclerView.ViewHolder {
 
             TextView name;
             TextView costForTwo;

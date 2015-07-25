@@ -1,5 +1,6 @@
 package com.greplr.bytes;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -11,24 +12,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class CartActivity extends AppCompatActivity {
+public class FoodCourtActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cart);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_cart);
+        setContentView(R.layout.activity_main);
+        startService(new Intent(this, BeaconDetectionService.class));
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_foodcourt);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(new CartAdapter());
+        mRecyclerView.setAdapter(new FoodCourtAdapter());
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_cart, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -47,12 +49,11 @@ public class CartActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
+    private class FoodCourtAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             CardView v = (CardView) LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.cardview_cart, parent, false);
+                    .inflate(R.layout.cardview_foodcourt, parent, false);
             return new ViewHolder(v);
         }
 

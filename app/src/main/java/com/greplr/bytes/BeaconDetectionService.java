@@ -4,19 +4,21 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.util.Log;
 
-import com.estimote.sdk.Beacon;
-import com.estimote.sdk.BeaconManager;
-import com.estimote.sdk.Region;
+import org.altbeacon.beacon.Beacon;
+import org.altbeacon.beacon.BeaconConsumer;
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.Identifier;
+import org.altbeacon.beacon.RangeNotifier;
+import org.altbeacon.beacon.Region;
 
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.Collection;
 
-public class BeaconDetectionService extends Service {
+public class BeaconDetectionService extends Service implements BeaconConsumer {
 
+    protected static final String TAG = "BeaconService";
     private BeaconManager beaconManager;
-    private com.estimote.sdk.Region region;
 
     public BeaconDetectionService() {
     }
@@ -29,34 +31,9 @@ public class BeaconDetectionService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        region = new Region("regionId", "b9407f30-f5f8-466e-aff9-25556b57fe6d", 43, 22317);
-        beaconManager = new BeaconManager(this);
-
-        beaconManager.setBackgroundScanPeriod(TimeUnit.SECONDS.toMillis(1), 0);
-
-        beaconManager.setMonitoringListener(new BeaconManager.MonitoringListener() {
-            @Override
-            public void onEnteredRegion(Region region, List<Beacon> beacons) {
-                Log.d("Main", "Entered region");
-
-            }
-
-            @Override
-            public void onExitedRegion(Region region) {
-                Log.d("Main", "Exited region");
-            }
-        });
-
-        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
-            @Override
-            public void onServiceReady() {
-                try {
-                    beaconManager.startMonitoring(region);
-                } catch (RemoteException e) {
-                    Log.d("MainActivity", "Error while starting monitoring");
-                }
-            }
-        });
+        beaconManager = BeaconManager.getInstanceForApplication(this);
+        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
+        beaconManager.bind(this);
     }
 
     @Override
@@ -64,4 +41,31 @@ public class BeaconDetectionService extends Service {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        beaconManager.unbind(this);
+    }
+
+    @Override
+    public void onBeaconServiceConnect() {
+        beaconManager.setRangeNotifier(new RangeNotifier() {
+            @Override
+            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                if (beacons.size() > 0) {
+                    if(beacons.iterator().next().getDistance() < 0.5){
+                        //TODO:
+                    }
+                }
+            }
+        });
+
+        try {
+            beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", Identifier.parse("b9407f30-f5f8-466e-aff9-25556b57fe6d"),
+                    Identifier.parse("43"), Identifier.parse("22317")));
+        } catch (RemoteException e) {
+        }
+    }
 }
+

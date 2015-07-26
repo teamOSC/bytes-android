@@ -1,6 +1,8 @@
 package com.greplr.bytes;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -39,6 +41,13 @@ public class CartActivity extends AppCompatActivity {
                 }
             }
         mRecyclerView.setAdapter(new CartAdapter());
+
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.cart_primary)));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.cart_dark));
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.cart_dark));
+        }
     }
 
     @Override
@@ -100,7 +109,7 @@ public class CartActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(CartAdapter.ViewHolder holder, int position) {
             holder.item.setText(cartList.get(position).name);
-            holder.rate.setText(cartList.get(position).quantity);
+            holder.rate.setText("x" + cartList.get(position).quantity);
         }
 
         @Override

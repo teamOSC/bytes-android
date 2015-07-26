@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,18 +29,12 @@ public class FoodCourtActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_foodcourt);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        new GetTask() {
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-                try {
-                    Log.d("Test", s);
-                    mRecyclerView.setAdapter(new FoodCourtAdapter(new JSONObject(s)));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.execute("http://tosc.in:8084/bytes/outlets/fetch/");
+        try {
+            mRecyclerView.setAdapter(new FoodCourtAdapter(new JSONObject(Utils.loadJSONFromAsset(
+                    getApplicationContext(), "restaurants.json"))));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

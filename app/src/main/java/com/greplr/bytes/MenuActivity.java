@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -21,6 +22,7 @@ import org.json.JSONObject;
 public class MenuActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
+    private ProgressBar progressBar;
     private String outletId;
 
     @Override
@@ -29,8 +31,10 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         outletId = getIntent().getStringExtra("outlet_id");
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_menu);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
+
         new GetTask() {
             @Override
             protected void onPostExecute(String s) {
@@ -38,7 +42,9 @@ public class MenuActivity extends AppCompatActivity {
                 try {
                     Log.d("Test", s);
                     mRecyclerView.setAdapter(new MenuAdapter(new JSONObject(s)));
+                    progressBar.setVisibility(View.GONE);
                 } catch (JSONException e) {
+                    progressBar.setVisibility(View.GONE);
                     e.printStackTrace();
                 }
             }

@@ -1,0 +1,35 @@
+{
+   "results":[
+      {
+         "cost_for_two":"400",
+         "min_service_time":"14",
+         "outlet_id":"1",
+         "name":"Dominos"
+      },
+      {
+         "cost_for_two":"250",
+         "min_service_time":"12",
+         "outlet_id":"2",
+         "name":"McDonalds"
+      },
+      {
+         "cost_for_two":"400",
+         "min_service_time":"8",
+         "outlet_id":"3",
+         "name":"Dunkin Donuts"
+      },
+      {
+         "cost_for_two":"550",
+         "min_service_time":"19",
+         "outlet_id":"4",
+         "name":"Starbucks"
+      },
+      {
+         "cost_for_two":"600",
+         "min_service_time":"16",
+         "outlet_id":"5",
+         "name":"Subway"
+      }
+   ],
+   "success":true
+}

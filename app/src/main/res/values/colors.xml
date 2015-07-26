@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="foodcourt_primary">#7F3D2A</color>
-    <color name="foodcourt_dark">#401910</color>
-    <color name="foodcourt_light">#FF7A54</color>
+    <color name="foodcourt_primary">#CC2A28</color>
+    <color name="foodcourt_dark">#7F1A19</color>
+    <color name="foodcourt_light">#FFB6B5</color>
+
+    <color name="menu_primary">#CC601B</color>
+    <color name="menu_dark">#7F3C11</color>
+    <color name="menu_light">#FFC8A5</color>
 </resources>

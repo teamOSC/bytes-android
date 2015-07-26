@@ -1,5 +1,7 @@
 package com.greplr.bytes;
 
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -49,6 +51,13 @@ public class MenuActivity extends AppCompatActivity {
                 }
             }
         }.execute("http://tosc.in:8084/bytes/outlets/info/?out_id=" + outletId);
+
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.menu_primary)));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.menu_dark));
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.menu_dark));
+        }
     }
 
     @Override

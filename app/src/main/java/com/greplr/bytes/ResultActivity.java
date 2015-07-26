@@ -1,5 +1,6 @@
 package com.greplr.bytes;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -53,7 +54,8 @@ public class ResultActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_bitcoin) {
+            startActivity(new Intent(getApplicationContext(), BitcoinActivity.class));
             return true;
         }
 

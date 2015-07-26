@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -92,9 +93,27 @@ public class FoodCourtActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
             try {
-                holder.name.setText(jsonArray.getJSONObject(position).getString("name"));
+                String restName = jsonArray.getJSONObject(position).getString("name");
+                holder.name.setText(restName);
                 holder.serviceTime.setText(jsonArray.getJSONObject(position).getString("min_service_time"));
                 holder.costForTwo.setText(jsonArray.getJSONObject(position).getString("cost_for_two"));
+
+                if (restName.contains("Dunkin")) {
+                    holder.logo.setImageDrawable(getResources().getDrawable(R.drawable.logo_dunkin));
+                }
+                if (restName.contains("Starbucks")) {
+                    holder.logo.setImageDrawable(getResources().getDrawable(R.drawable.logo_starbucks));
+                }
+                if (restName.contains("Subway")) {
+                    holder.logo.setImageDrawable(getResources().getDrawable(R.drawable.logo_subway));
+                }
+                if (restName.contains("Dominos")) {
+                    holder.logo.setImageDrawable(getResources().getDrawable(R.drawable.logo_dominos));
+                }
+                if (restName.contains("McDonalds")) {
+                    holder.logo.setImageDrawable(getResources().getDrawable(R.drawable.logo_mcdonalds));
+                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -124,6 +143,7 @@ public class FoodCourtActivity extends AppCompatActivity {
             TextView name;
             TextView costForTwo;
             TextView serviceTime;
+            ImageView logo;
             View v;
 
             public ViewHolder(View itemView) {
@@ -132,6 +152,7 @@ public class FoodCourtActivity extends AppCompatActivity {
                 name = (TextView) itemView.findViewById(R.id.restaurant_name);
                 costForTwo = (TextView) itemView.findViewById(R.id.restaurant_cost);
                 serviceTime = (TextView) itemView.findViewById(R.id.restaurant_time);
+                logo = (ImageView) itemView.findViewById(R.id.restaurant_logo);
             }
         }
     }

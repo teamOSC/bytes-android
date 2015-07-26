@@ -1,6 +1,8 @@
 package com.greplr.bytes;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -37,6 +39,13 @@ public class ResultActivity extends AppCompatActivity {
         }
         mRecyclerView.setAdapter(new ResultAdapter());
         Toast.makeText(this, "Your order has been placed", Toast.LENGTH_SHORT).show();
+
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.result_primary)));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.result_dark));
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.result_dark));
+        }
     }
 
     @Override
@@ -74,8 +83,8 @@ public class ResultActivity extends AppCompatActivity {
         public void onBindViewHolder(ResultAdapter.ViewHolder holder, int position) {
             try {
                 holder.restaurant.setText(jsonArray.getJSONObject(position).getString("name"));
-                holder.amount.setText(jsonArray.getJSONObject(position).getString("cost"));
-                holder.time.setText(jsonArray.getJSONObject(position).getString("time") + ":00");
+                holder.amount.setText("Paid: \u20b9" + jsonArray.getJSONObject(position).getString("cost"));
+                holder.time.setText("Served in: " + jsonArray.getJSONObject(position).getString("time") + ":00");
             } catch (JSONException e) {
                 e.printStackTrace();
             }

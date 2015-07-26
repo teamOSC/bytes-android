@@ -41,12 +41,14 @@
                 android:id="@+id/restaurant_name" />
 
             <TextView
+                android:fontFamily="sans-serif-light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cost for two"
                 android:id="@+id/restaurant_cost" />
 
             <TextView
+                android:fontFamily="sans-serif-light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Min. Service Time"

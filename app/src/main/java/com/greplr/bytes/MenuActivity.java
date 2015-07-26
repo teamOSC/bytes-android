@@ -42,7 +42,7 @@ public class MenuActivity extends AppCompatActivity {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 try {
-                    Log.d("Test", s);
+                    Log.d("Test", "" + s);
                     mRecyclerView.setAdapter(new MenuAdapter(new JSONObject(s)));
                     progressBar.setVisibility(View.GONE);
                 } catch (JSONException e) {

@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -20,12 +21,14 @@ public class CartActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private ArrayList<Cart> cartList;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_cart);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         cartList = new ArrayList<>();
@@ -54,6 +57,7 @@ public class CartActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_place) {
+            progressBar.setVisibility(View.VISIBLE);
             String query = "";
             for (int i = 0; i < 5; i++)
                 for (int j = 0; j < 10; j++) {
@@ -67,10 +71,12 @@ public class CartActivity extends AppCompatActivity {
                     super.onPostExecute(s);
                     try {
                         Log.d("FinalOrder", s);
+                        progressBar.setVisibility(View.GONE);
                         Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
                         intent.putExtra("json", s);
                         startActivity(intent);
                     } catch (Exception e) {
+                        progressBar.setVisibility(View.GONE);
                         e.printStackTrace();
                     }
                 }

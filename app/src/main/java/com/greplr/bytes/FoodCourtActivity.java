@@ -1,6 +1,8 @@
 package com.greplr.bytes;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -36,6 +38,14 @@ public class FoodCourtActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.foodcourt_primary)));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.foodcourt_dark));
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.foodcourt_dark));
+        }
+
     }
 
     @Override

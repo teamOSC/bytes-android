@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="foodcourt_primary">#7F3D2A</color>
+    <color name="foodcourt_dark">#401910</color>
+    <color name="foodcourt_light">#FF7A54</color>
+</resources>

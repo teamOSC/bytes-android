@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp"
+    app:cardBackgroundColor="@color/foodcourt_light"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp">
@@ -22,12 +26,15 @@
         </LinearLayout>
 
         <LinearLayout
-            android:padding="20dp"
+            android:padding="15dp"
             android:orientation="vertical"
             android:layout_weight="3"
             android:layout_width="0dp"
             android:layout_height="match_parent">
             <TextView
+                android:fontFamily="sans-serif-condensed"
+                android:textStyle="italic"
+                android:textSize="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Restaurant Name"

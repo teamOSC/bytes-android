@@ -98,8 +98,8 @@ public class FoodCourtActivity extends AppCompatActivity {
             try {
                 String restName = jsonArray.getJSONObject(position).getString("name");
                 holder.name.setText(restName);
-                holder.serviceTime.setText(jsonArray.getJSONObject(position).getString("min_service_time"));
-                holder.costForTwo.setText(jsonArray.getJSONObject(position).getString("cost_for_two"));
+                holder.costForTwo.setText("Cost for two : \u20B9" + jsonArray.getJSONObject(position).getString("cost_for_two"));
+                holder.serviceTime.setText("Min. service time : " + jsonArray.getJSONObject(position).getString("min_service_time") + " mins");
 
                 if (restName.contains("Dunkin")) {
                     holder.logo.setImageDrawable(getResources().getDrawable(R.drawable.logo_dunkin));

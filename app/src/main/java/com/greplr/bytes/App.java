@@ -13,7 +13,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         for (int i = 0; i < 5; i++)
-            for (int j = 0; j<10; j++)
+            for (int j = 0; j < 10; j++)
                 rest[i][j] = new Query();
     }
 

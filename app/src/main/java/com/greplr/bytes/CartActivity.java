@@ -1,10 +1,12 @@
 package com.greplr.bytes;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,7 +30,7 @@ public class CartActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(layoutManager);
         cartList = new ArrayList<>();
         for (int i = 0; i < 5; i++)
-            for (int j = 0; j<10; j++){
+            for (int j = 0; j < 10; j++) {
                 if (App.rest[i][j].getQuantity() > 0) {
                     cartList.add(new Cart(App.rest[i][j].getFoodItem(), String.valueOf(App.rest[i][j].getQuantity())));
                 }
@@ -51,7 +53,28 @@ public class CartActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_place) {
+            String query = "";
+            for (int i = 0; i < 5; i++)
+                for (int j = 0; j < 10; j++) {
+                    if (App.rest[i][j].getQuantity() > 0) {
+                        query += (i + 1) + "," + (j + 1) + "," + App.rest[i][j].getQuantity() + "%7C";
+                    }
+                }
+            new GetTask() {
+                @Override
+                protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
+                    try {
+                        Log.d("FinalOrder", s);
+                        Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
+                        intent.putExtra("json", s);
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.execute("http://tosc.in:8084/bytes/outlets/billing?q=" + query.substring(0, query.length() - 3) + "&user_id=42&username=Prempal");
             return true;
         }
 

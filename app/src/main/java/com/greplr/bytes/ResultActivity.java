@@ -12,9 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 public class ResultActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
+    private JSONArray jsonArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,12 @@ public class ResultActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_result);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
+        String json = getIntent().getStringExtra("json");
+        try {
+            jsonArray = new JSONArray(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         mRecyclerView.setAdapter(new ResultAdapter());
     }
 
@@ -48,22 +58,28 @@ public class ResultActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class ResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder> {
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ResultAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             CardView v = (CardView) LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.cardview_result, parent, false);
             return new ViewHolder(v);
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        public void onBindViewHolder(ResultAdapter.ViewHolder holder, int position) {
+            try {
+                holder.restaurant.setText(jsonArray.getJSONObject(position).getString("name"));
+                holder.amount.setText(jsonArray.getJSONObject(position).getString("cost"));
+                holder.time.setText(jsonArray.getJSONObject(position).getString("time") + ":00");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
         public int getItemCount() {
-            return 0;
+            return jsonArray.length();
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {

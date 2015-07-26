@@ -54,7 +54,7 @@ public class BeaconDetectionService extends Service implements BeaconConsumer {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
                 if (beacons.size() > 0) {
-                    if(beacons.iterator().next().getDistance() < 0.5){
+                    if (beacons.iterator().next().getDistance() < 0.5) {
                         //TODO:
                     }
                 }

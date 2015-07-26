@@ -7,4 +7,8 @@
     <color name="menu_primary">#CC601B</color>
     <color name="menu_dark">#7F3C11</color>
     <color name="menu_light">#FFC8A5</color>
+
+    <color name="cart_primary">#2B8FCC</color>
+    <color name="cart_dark">#1B597F</color>
+    <color name="cart_light">#B9E4FF</color>
 </resources>

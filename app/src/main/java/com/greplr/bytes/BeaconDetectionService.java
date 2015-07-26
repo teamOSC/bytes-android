@@ -61,8 +61,11 @@ public class BeaconDetectionService extends Service implements BeaconConsumer {
                 if (beacons.size() > 0) {
                     Log.d(TAG, "" + beacons + beacons.iterator().next().getDistance());
                     if (beacons.iterator().next().getDistance() < 0.5) {
-                        PendingIntent pi = PendingIntent.getActivity(BeaconDetectionService.this, 69, new Intent(BeaconDetectionService.this, FoodCourtActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-                        Notification notification = new NotificationCompat.Builder(BeaconDetectionService.this)
+                        Log.d(TAG, "Going to start notification");
+                        Intent openActIntent = new Intent(getApplicationContext(), FoodCourtActivity.class);
+                        PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 0, openActIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                        Notification notification = new Notification.Builder(getApplicationContext())
                                 .setTicker("Food Court")
                                 .setContentTitle("Food Court")
                                 .setContentText("Tap to order food")

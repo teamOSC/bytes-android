@@ -20,6 +20,7 @@ public class BeaconDetectionService extends Service implements BeaconConsumer {
 
     protected static final String TAG = "BeaconService";
     private BeaconManager beaconManager;
+    private boolean temp = false;
 
     public BeaconDetectionService() {
     }
@@ -60,7 +61,10 @@ public class BeaconDetectionService extends Service implements BeaconConsumer {
                         Log.d(TAG, "Going to start notification");
                         Intent intent = new Intent(getApplicationContext(), FoodCourtActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
+                        if(temp == false){
+                            startActivity(intent);
+                            temp = true;
+                        }
 //                        Intent openActIntent = new Intent(getApplicationContext(), FoodCourtActivity.class);
 //                        PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 0, openActIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 //

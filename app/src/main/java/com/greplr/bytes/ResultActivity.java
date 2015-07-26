@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +35,7 @@ public class ResultActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         mRecyclerView.setAdapter(new ResultAdapter());
+        Toast.makeText(this, "Your order has been placed", Toast.LENGTH_SHORT).show();
     }
 
     @Override

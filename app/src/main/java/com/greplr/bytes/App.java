@@ -4,7 +4,9 @@ import android.app.Application;
 import android.util.Log;
 
 import com.parse.Parse;
+import com.parse.ParseACL;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -23,9 +25,11 @@ public class App extends Application {
             for (int j = 0; j < 10; j++)
                 rest[i][j] = new Query();
 
-        Parse.initialize(this, "M5tnZk2K6PdF82Ra8485bG2VQwPjpeZLeL96VLPj",
-                "0Sg7WlkNmt0jkC6dOQ91qkOUbGBoyiCqIG8xqU7z");
+        Parse.initialize(this, "YAMSAX6DxYsMyjiHSj3JePmdHACcAcNSXDXnYXSb",
+                "2cxbz7pJnSzFhRygVHV05BvTGEv4VLzeICZ4oPYm");
+        ParseACL defaultACL = new ParseACL();
         ParseUser.enableAutomaticUser();
+        ParseInstallation.getCurrentInstallation().saveInBackground();
         ParsePush.subscribeInBackground("", new SaveCallback() {
             @Override
             public void done(ParseException e) {

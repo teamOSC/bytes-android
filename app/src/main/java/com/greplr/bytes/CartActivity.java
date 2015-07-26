@@ -80,7 +80,8 @@ public class CartActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-            }.execute("http://tosc.in:8084/bytes/outlets/billing?q=" + query.substring(0, query.length() - 3) + "&user_id=42&username=Prempal");
+            }.execute("http://tosc.in:8084/bytes/outlets/billing?q=" + query.substring(0, query.length() - 3)
+                    + "&user_id=42&username=Prempal");
             return true;
         }
 

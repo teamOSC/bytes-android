@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -105,7 +106,7 @@ public class MenuActivity extends AppCompatActivity {
         public void onBindViewHolder(ViewHolder holder, final int position) {
             try {
                 holder.item.setText(jsonArray.getJSONObject(position).getString("item_name"));
-                holder.price.setText(jsonArray.getJSONObject(position).getString("item_rate"));
+                holder.price.setText("\u20B9" + jsonArray.getJSONObject(position).getString("item_rate"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -133,7 +134,7 @@ public class MenuActivity extends AppCompatActivity {
 
             TextView item;
             TextView price;
-            ImageButton add;
+            ImageView add;
             View v;
 
             public ViewHolder(View itemView) {
@@ -141,7 +142,7 @@ public class MenuActivity extends AppCompatActivity {
                 v = itemView;
                 item = (TextView) itemView.findViewById(R.id.menu_item);
                 price = (TextView) itemView.findViewById(R.id.menu_price);
-                add = (ImageButton) itemView.findViewById(R.id.menu_add);
+                add = (ImageView) itemView.findViewById(R.id.menu_add);
             }
         }
     }

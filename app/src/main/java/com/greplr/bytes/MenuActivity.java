@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -103,10 +102,11 @@ public class MenuActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, final int position) {
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
             try {
                 holder.item.setText(jsonArray.getJSONObject(position).getString("item_name"));
                 holder.price.setText("\u20B9" + jsonArray.getJSONObject(position).getString("item_rate"));
+                holder.quantity.setText("x" + (App.rest[(Integer.parseInt(outletId)) - 1][position].getQuantity()));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -118,6 +118,7 @@ public class MenuActivity extends AppCompatActivity {
                         (App.rest[(Integer.parseInt(outletId)) - 1][position]).doTheThing(
                                 "" + jsonArray.getJSONObject(position).getString("item_name")
                         );
+                        holder.quantity.setText((App.rest[(Integer.parseInt(outletId)) - 1][position].getQuantity())+"x");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -134,6 +135,7 @@ public class MenuActivity extends AppCompatActivity {
 
             TextView item;
             TextView price;
+            TextView quantity;
             ImageView add;
             View v;
 
@@ -143,6 +145,7 @@ public class MenuActivity extends AppCompatActivity {
                 item = (TextView) itemView.findViewById(R.id.menu_item);
                 price = (TextView) itemView.findViewById(R.id.menu_price);
                 add = (ImageView) itemView.findViewById(R.id.menu_add);
+                quantity = (TextView) itemView.findViewById(R.id.menu_quantity);
             }
         }
     }

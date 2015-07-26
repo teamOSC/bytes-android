@@ -45,7 +45,7 @@ public class App extends Application {
 
     public class Query {
         private String foodItem;
-        private int quantity;
+        private int quantity = 0;
 
         public String getFoodItem() {
             return foodItem;

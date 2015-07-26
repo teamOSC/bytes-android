@@ -1,9 +1,14 @@
 package com.greplr.bytes;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -54,8 +59,19 @@ public class BeaconDetectionService extends Service implements BeaconConsumer {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
                 if (beacons.size() > 0) {
+                    Log.d(TAG, "" + beacons + beacons.iterator().next().getDistance());
                     if (beacons.iterator().next().getDistance() < 0.5) {
-                        //TODO:
+                        PendingIntent pi = PendingIntent.getActivity(BeaconDetectionService.this, 69, new Intent(BeaconDetectionService.this, FoodCourtActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+                        Notification notification = new NotificationCompat.Builder(BeaconDetectionService.this)
+                                .setTicker("Food Court")
+                                .setContentTitle("Food Court")
+                                .setContentText("Tap to order food")
+                                .setContentIntent(pi)
+                                .setAutoCancel(true)
+                                .build();
+
+                        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                        notificationManager.notify(69, notification);
                     }
                 }
             }
